@@ -2,12 +2,12 @@ package com.twigsoftwares.com.chatinputbar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaRecorder;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -152,7 +152,7 @@ public class ChatInputBar extends RelativeLayout
         emojIcon.ShowEmojIcon();
 
         // set toogeling drawables
-        emojIcon.setIconsIds(R.drawable.keyboard, R.drawable.smiley);
+        emojIcon.setIconsIds(R.drawable.baseline_keyboard_24, R.drawable.baseline_insert_emoticon_24);
 
         //set key board opening closing listeners
         emojIcon.setKeyboardListener(new EmojIconActions.KeyboardListener() {
@@ -471,6 +471,7 @@ public class ChatInputBar extends RelativeLayout
     }
 
     // function returnd human understandable time format.
+    @SuppressLint("DefaultLocale")
     private String getHumanTimeText(long milliseconds) {
         return String.format("%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(milliseconds),
@@ -578,22 +579,13 @@ public class ChatInputBar extends RelativeLayout
 
             final Class<?> drawableFieldClass;
 
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            final Field editorField = TextView.class.getDeclaredField("mEditor");
 
-                drawableFieldOwner = this.messageInput;
+            editorField.setAccessible(true);
 
-                drawableFieldClass = TextView.class;
+            drawableFieldOwner = editorField.get(this.messageInput);
 
-            } else {
-                final Field editorField = TextView.class.getDeclaredField("mEditor");
-
-                editorField.setAccessible(true);
-
-                drawableFieldOwner = editorField.get(this.messageInput);
-
-                drawableFieldClass = drawableFieldOwner.getClass();
-
-            }
+            drawableFieldClass = drawableFieldOwner.getClass();
 
             final Field drawableField = drawableFieldClass.getDeclaredField("mCursorDrawable");
 
@@ -615,17 +607,9 @@ public class ChatInputBar extends RelativeLayout
 
             mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.HE_AAC);
 
-                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.HE_AAC);
-
-                mRecorder.setAudioEncodingBitRate(48000);
-
-            } else {
-                mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-
-                mRecorder.setAudioEncodingBitRate(64000);
-            }
+            mRecorder.setAudioEncodingBitRate(48000);
 
             mRecorder.setAudioSamplingRate(16000);
 

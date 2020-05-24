@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerHorizontal="true">
             <com.fangxu.allangleexpandablebutton.AllAngleExpandableButton
                 android:id="@+id/button_expandable"
@@ -46,9 +46,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/leftlayout"
-            android:layout_toRightOf="@+id/leftlayout"
             android:layout_toStartOf="@+id/record_button">
 
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/messageinput"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="143dp"
+                android:layout_marginBottom="387dp"
+                android:text="TextView" />
 
             <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
                 android:id="@+id/messageinput"
@@ -78,9 +87,9 @@
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/emojibackground"
                 android:paddingBottom="0dp"
-                android:paddingRight="2dp"
+                android:paddingEnd="2dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/smiley"
+                android:src="@drawable/baseline_insert_emoticon_24"
                 android:tint="@color/pink" />
         </RelativeLayout>
 
@@ -120,7 +129,7 @@
             android:background="@drawable/bg_mic"
             android:paddingBottom="0dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_action_send_now"
+            android:src="@drawable/baseline_send_24"
             android:tint="@color/white"
             android:visibility="gone" />
 
